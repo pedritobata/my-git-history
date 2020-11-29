@@ -1,60 +1,47 @@
-import cors from 'cors';
-import express from 'express';
-import routes from '../api';
-import config from '../config';
-import dotenv from 'dotenv';
-
-
-
+import cors = require("cors");
+import express = require("express");
+import routes from "../api";
+import config from "../config";
 
 export default (app: express.Application) => {
+  app.use(cors());
 
-    const foundEnv = dotenv.config();
-    if(foundEnv.error){
-        throw new Error("env file not found.");
-    }
+  /**
+   * Health check
+   */
+  app.get("/status", (req, res) => {
+    res.status(200).end();
+  });
 
-    app.use(cors());
+  /**
+   * Config
+   */
+  app.use(express.json());
 
-    /**
-     * Health check
-     */
-   app.get("/status", (req,res) => {
-       res.status(200).end();
-   });
+  /**
+   * Routes
+   */
+  app.use(config.api.prefix, routes());
 
-   /**
-    * Config
-    */
-    app.use(express.json());
+  /**
+   * Resource not found. No matching route
+   */
+  app.use((req, res, next) => {
+    const error = new Error("Resource not found");
+    error["status"] = 404;
+    next(error);
+  });
 
-
-    /**
-     * Routes
-     */
-    app.use(config.api.prefix, routes());
-
-
-    /**
-     * Resource not found
-     */
-    app.use((req,res,next) => {
-        const error = new Error("Resource not found");
-        error['status'] = 404;
-        next(error);
+  
+  /**
+   * Error handlers
+   */
+  app.use((err, req, res, next) => {
+    res.status(err.status || 500);
+    res.json({
+      errors: {
+        message: err.message,
+      },
     });
-
-
-    /**
-     * Error handlers
-     */
-    app.use((err,req,res,next) => {
-        res.status(err.status || 500);
-        res.json({
-            errors: {
-                message: err.message,
-            }
-        });
-    });
-
-}
+  });
+};

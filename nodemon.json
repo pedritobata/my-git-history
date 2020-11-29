@@ -1,6 +1,6 @@
 {
     "watch": [
-      "src",
+      "./backend/src",
       ".env"
     ],
     "ext": "js,ts,json",

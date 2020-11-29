@@ -1,10 +1,13 @@
 import express = require("express");
 import config from "./config";
 import loaders from "./loaders";
-import Logger from "./utils/logger";
+import { Container } from 'typedi';
+import ILogger from './interfaces/ILogger';
 
 function startServer() {
   const app = express();
+
+  const Logger: ILogger = Container.get(config.dependencyInjection.logger);
 
   loaders(app);
 

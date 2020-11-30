@@ -2,21 +2,19 @@ import cors = require("cors");
 import express = require("express");
 import routes from "../api";
 import config from "../config";
-import { Container } from 'typedi';
+import { Container } from "typedi";
 import { Logger } from "winston";
-import morgan = require('morgan');
-
+import morgan = require("morgan");
 
 export default (app: express.Application) => {
   app.use(cors());
   app.use(morgan());
 
-
   /**
    * Health check
    */
   app.get("/status", (req, res) => {
-    res.status(200).json({message: "Server up and running..."});
+    res.status(200).json({ message: "Server up and running..." });
   });
 
   /**
@@ -38,14 +36,13 @@ export default (app: express.Application) => {
     next(error);
   });
 
-  
   /**
    * Error handlers
    */
   app.use((err: Error, req: express.Request, res: express.Response, next) => {
     res.status(err.status || 500);
     const Logger = Container.get(config.dependencyInjection.logger) as Logger;
-    console.log("Error >>>", Logger.error(err));
+    Logger.error(err);
     res.json({
       errors: {
         message: err.message,

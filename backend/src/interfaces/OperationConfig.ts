@@ -1,5 +1,5 @@
 
 export default interface OperationConfig {
-    endpointUrl: string;
-    headers?: object;
+  endpointUrl: string;
+  headers?: object;
 }

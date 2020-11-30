@@ -2,13 +2,17 @@ import GithubCommitItem from "../../../models/githubCommitItem";
 import CommitListResponse from "../interfaces/commitListResponse";
 import { getRepoNameFromUrl } from "../../../utils/utils";
 import CommitResponse from "../interfaces/commitResponse";
+import Branch from "../../../models/githubBranch";
 
-export default function (commitList: GithubCommitItem[]): CommitListResponse {
+export default function (
+  commitList: GithubCommitItem[],
+  branchList: Branch[]
+): CommitListResponse {
   const response: CommitListResponse = {
     repoName: getRepoNameFromUrl(commitList[0].url as string),
     repoOwnerNickname: commitList[0].author.login as string,
     commitList: mapCommitList(commitList),
-    branches: [""]
+    branches: mapBranchList(branchList),
   };
 
   return response;
@@ -27,4 +31,8 @@ function mapCommitList(commitList: GithubCommitItem[]): CommitResponse[] {
       .setCommitterNickname(item.committer.login)
       .build();
   });
+}
+
+function mapBranchList(branchList: Branch[]): string[] {
+  return branchList.map((item) => item.name);
 }

@@ -2,15 +2,15 @@ import "reflect-metadata";
 import express = require("express");
 import config from "./config";
 import loaders from "./loaders";
-import { Container } from 'typedi';
+import { Container } from "typedi";
 import { Logger } from "winston";
 
 function startServer() {
   const app = express();
   loaders(app);
-  
+
   const logger = Container.get(config.dependencyInjection.logger) as Logger;
-  
+
   app
     .listen(config.port, () => {
       logger.info(

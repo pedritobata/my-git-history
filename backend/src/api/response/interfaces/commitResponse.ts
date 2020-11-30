@@ -1,5 +1,3 @@
-import { timeStamp } from "console";
-import GihubUser from "../../../interfaces/githubUser";
 
 export default class CommitResponse {
   private constructor(

@@ -1,5 +1,7 @@
-import CommitListResponse from "../api/response/interfaces/commitListResponse";
+import CommitListResponse from '../api/response/interfaces/commitListResponse';
 
 export default interface GitService {
-   getCommitListByOwnerAndRepo(owner: string, reponame: string) : CommitListResponse | null; 
+
+   getCommitListByOwnerAndRepoAndBranch(owner: string, reponame: string, branch: string) : Promise<CommitListResponse | null>; 
+   
 }

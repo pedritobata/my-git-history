@@ -4,10 +4,13 @@ import routes from "../api";
 import config from "../config";
 import { Container } from 'typedi';
 import { Logger } from "winston";
+import morgan = require('morgan');
 
 
 export default (app: express.Application) => {
   app.use(cors());
+  app.use(morgan());
+
 
   /**
    * Health check

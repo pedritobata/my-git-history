@@ -3,7 +3,7 @@ import dotenv = require('dotenv');
 
 const foundEnv = dotenv.config();
 if(foundEnv.error){
-    throw new Error("env file not found.");
+    throw new Error('env file not found.');
 }
 
 
@@ -16,12 +16,12 @@ export default {
     },
 
     dependencyInjection: {
-        logger: "Logger",
-        axios: "axios"
+        logger: 'Logger',
+        axios: 'axios',
     },
 
     api: {
-        prefix: "/api"
+        prefix: '/api'
     }
 
 }

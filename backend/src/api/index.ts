@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import git from './routes/git';
+import gitRoutes from './routes/git';
 
 
 export default () => {
     const router = Router();
-    git(router);
+    gitRoutes(router);
 
     
     return router;

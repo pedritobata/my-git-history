@@ -1,9 +1,11 @@
 import { Router } from 'express';
+import { getCommitListController } from '../../controllers/gitController';
+
 
 const route = Router();
 
 export default (app: Router) => {
-    route.use("/github-repos", app); //prefix
+    app.use('/github-repos', app); //prefix
 
-    route.get("/:owner/:reponame/commits");
+    app.get('/:owner/:reponame/commits', getCommitListController);
 }

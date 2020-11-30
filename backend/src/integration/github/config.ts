@@ -1,4 +1,4 @@
-import OperationConfig from "../../interfaces/OperationConfig";
+import OperationConfig from "../../interfaces/operationConfig";
 
 export const getCommitListConfig = (
   ownerNickname: string,

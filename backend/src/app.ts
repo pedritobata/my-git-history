@@ -1,25 +1,24 @@
+import "reflect-metadata";
 import express = require("express");
 import config from "./config";
 import loaders from "./loaders";
 import { Container } from 'typedi';
-import ILogger from './interfaces/ILogger';
+import { Logger } from "winston";
 
 function startServer() {
   const app = express();
-
-  const Logger: ILogger = Container.get(config.dependencyInjection.logger);
-
   loaders(app);
-
+  
+  const logger = Container.get(config.dependencyInjection.logger) as Logger;
   
   app
     .listen(config.port, () => {
-      Logger.info(
+      logger.info(
         `########### Server listening on port: ${config.port} ############`
       );
     })
     .on("error", (err) => {
-      Logger.error(err);
+      logger.error(err);
       process.exit(1);
     });
 }

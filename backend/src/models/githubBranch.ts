@@ -1,5 +1,5 @@
 type Commit = { sha: string; url: string };
 
-export default class Branch {
+export default class GithubBranch {
   constructor(public name: string, public commit: Commit) {}
 }

@@ -2,17 +2,20 @@ import GithubCommitItem from "../../../models/githubCommitItem";
 import CommitListResponse from "../interfaces/commitListResponse";
 import { getRepoNameFromUrl } from "../../../utils/utils";
 import CommitResponse from "../interfaces/commitResponse";
-import Branch from "../../../models/githubBranch";
+import GithubBranch from "../../../models/githubBranch";
+import GithubRepo from "../../../models/githubRepo";
 
 export default function (
   commitList: GithubCommitItem[],
-  branchList: Branch[]
+  branchList: GithubBranch[],
+  repoList: GithubRepo[]
 ): CommitListResponse {
   const response: CommitListResponse = {
     repoName: getRepoNameFromUrl(commitList[0].url as string),
     repoOwnerNickname: commitList[0].author.login as string,
     commitList: mapCommitList(commitList),
     branches: mapBranchList(branchList),
+    repos: mapRepoList(repoList),
   };
 
   return response;
@@ -33,6 +36,17 @@ function mapCommitList(commitList: GithubCommitItem[]): CommitResponse[] {
   });
 }
 
-function mapBranchList(branchList: Branch[]): string[] {
+function mapBranchList(branchList: GithubBranch[]): string[] {
   return branchList.map((item) => item.name);
+}
+
+function mapRepoList(repoList: GithubRepo[]): GithubRepo[] {
+  return repoList.map((item) => {
+    return {
+      name: item.name,
+      html_url: item.html_url,
+      description: item.description,
+      language: item.language
+    }
+  });
 }

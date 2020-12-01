@@ -1,4 +1,4 @@
-import { getCommitListConfig, getBranchesConfig } from "./config";
+import { getCommitListConfig, getBranchesConfig, getReposConfig } from "./config";
 import { Container, Service } from "typedi";
 import config from "../../config";
 import { AxiosInstance, AxiosRequestConfig } from "axios";
@@ -16,31 +16,44 @@ export default class GithubOperations {
     repoName: string,
     branch: string = "master"
   ) {
-    const url = getCommitListConfig(owner, repoName).endpointUrl;
-    const axiosConfig: AxiosRequestConfig = { params: { sha: branch } };
     let data = null;
     try {
-      const response = await this.axios.get(url, axiosConfig);
+      const response = await this.axios(<AxiosRequestConfig>getCommitListConfig(owner, repoName,branch));
       data = response.data;
     } catch (error) {
       this.logger.error(error);
-      throw new Error(`Github commits API failed: ${error}`);
+      throw new Error(`Github commits API operation failed: ${error}`);
     }
 
     return data;
   }
 
   public async getBranchesByOwnerAndRepo(owner: string, repo: string) {
-    const url = getBranchesConfig(owner, repo).endpointUrl;
     let data = null;
     try {
-      const response = await this.axios.get(url);
+      const response = await this.axios(<AxiosRequestConfig>getBranchesConfig(owner,repo));
       data = response.data;
     } catch (error) {
       this.logger.error(error);
-      throw new Error(`Github branches API failed: ${error}`);
+      throw new Error(`Github branches API operation failed: ${error}`);
     }
 
     return data;
   }
+
+
+  public async getReposByOwner(owner: string) {
+    let data = null;
+    try {
+      const response = await this.axios(<AxiosRequestConfig>getReposConfig(owner));
+      data = response.data;
+    } catch (error) {
+      this.logger.error(error);
+      throw new Error(`Github repos API operation failed: ${error}`);
+    }
+
+    return data;
+  }
+
+
 }

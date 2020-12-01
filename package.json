@@ -16,6 +16,7 @@
     "@types/axios": "^0.14.0",
     "@types/winston": "^2.4.4",
     "axios": "^0.21.0",
+    "basic-authorization-header": "^0.2.7",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",

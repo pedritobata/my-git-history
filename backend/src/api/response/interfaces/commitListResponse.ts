@@ -1,3 +1,4 @@
+import GithubRepo from "../../../models/githubRepo";
 import CommitResponse from "./commitResponse";
 
 export default interface CommitListResponse {
@@ -5,4 +6,5 @@ export default interface CommitListResponse {
   repoName: string;
   branches: string[];
   commitList: CommitResponse[];
+  repos: GithubRepo[]
 }

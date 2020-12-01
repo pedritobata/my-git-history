@@ -1,28 +1,16 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import State from './interfaces/state';
+import { listCommitsReducer } from './reducers/commitReducers';
 
 
 const reducer = combineReducers({
-
+    commits: listCommitsReducer
 });
 
 const middlewares = [thunk];
 
-const initialState : State = {
-   commits: {
-       commitList: {
-           branches: [],
-           commitList: [],
-           repoName: '',
-           repoOwnerNickname: ''
-       },
-       error: '',
-       loading: true
-   }
-}
 
-const store = createStore(reducer, initialState, composeWithDevTools(applyMiddleware(...middlewares)));
+const store = createStore(reducer, composeWithDevTools(applyMiddleware(...middlewares)));
 
 export default store;

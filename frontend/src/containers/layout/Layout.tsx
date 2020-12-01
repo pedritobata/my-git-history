@@ -1,16 +1,16 @@
-import React from 'react';
-import Toolbar from '../../components/toolbar/Toolbar';
+import React from "react";
+import { Container } from "react-bootstrap";
+import Toolbar from "../../components/toolbar/Toolbar";
 
-type LayoutProps = {}
+type LayoutProps = {};
 
-const Layout: React.FC<LayoutProps> = ({children}) => {
-
-    return (
-        <div>
-            <Toolbar  />
-            {children}
-        </div>
-    );
-}
+const Layout: React.FC<LayoutProps> = ({ children }) => {
+  return (
+    <div>
+      <Toolbar />
+      <Container fluid>{children}</Container>
+    </div>
+  );
+};
 
 export default Layout;

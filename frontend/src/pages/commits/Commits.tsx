@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Table, Button, Row, Col , Image} from 'react-bootstrap'
+import { Table, Button, Row, Col, Image } from "react-bootstrap";
 import State from "../../store/interfaces/state";
 import { listCommits } from "../../store/actions/commitActions";
 import Loader from "../../components/commons/Loader";
@@ -26,33 +26,46 @@ const Commits: React.FC = () => {
     <Message variant="danger">{error}</Message>
   ) : (
     <main>
-      <h4 className="my-3">
-        Welcome{" "}
-        <span className="font-weight-light">
-          {commitList.repoOwnerNickname}
-        </span>
-      </h4>
-      <Table striped bordered hover responsive className='table-sm'>
-           <tbody>
-              {commitList.commitList.map((commit) => (
-                <tr key={commit.commitDate}>
-                  <td className="d-flex flex-direction-column"><span>{commit.commitMessage}</span> 
-                  <Image className="rounded-circle w-25" fluid src={commit.committerAvatarUrl} alt={commit.committerName}/>
-                  <span>{commit.committerNickname}</span>
-                  </td>
-             
-                  <td>
-                  
-                      <Button variant='primary' className='btn-sm'>
-                        See details
-                      </Button>
-              
-                   
-                  </td>
-                </tr> 
-              ))}
-            </tbody>
-          </Table>
+      <Row className="d-flex align-items-center my-3">
+        <h5 className="m-0">Exploring now :</h5>
+  
+        <p className="my-0 ml-3">
+          <span>{commitList.repoOwnerNickname}</span>{" "}|{" "}
+          <span className="text-primary font-weight-bold">{commitList.repoName}</span>
+        </p>
+      </Row>
+
+      <Table striped bordered hover responsive className="table-sm">
+        <tbody>
+          {commitList.commitList.map((commit) => (
+            <tr key={commit.commitDate}>
+              <td className="d-flex flex-column p-2">
+                <span>{commit.commitMessage}</span>
+                <div>
+                  <Image
+                    className="rounded-circle"
+                    style={{ width: "20px" }}
+                    fluid
+                    src={commit.committerAvatarUrl}
+                    alt={commit.committerName}
+                  />
+                  <span className="ml-2 font-weight-bolder">
+                    {commit.committerNickname}
+                  </span>
+                </div>
+              </td>
+
+              <td className="align-middle p-3">
+                <a href={commit.commitHtmlUrl}>
+                  <Button variant="outline-primary" className="btn-sm">
+                    See details in github
+                  </Button>
+                </a>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
     </main>
   );
 };

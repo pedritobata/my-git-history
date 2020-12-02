@@ -1,6 +1,14 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Table, Button, Row, Col, Image } from "react-bootstrap";
+import {
+  Table,
+  Button,
+  Row,
+  Col,
+  Image,
+  DropdownButton,
+  Dropdown,
+} from "react-bootstrap";
 import State from "../../store/interfaces/state";
 import { listCommits } from "../../store/actions/commitActions";
 import Loader from "../../components/commons/Loader";
@@ -27,12 +35,41 @@ const Commits: React.FC = () => {
   ) : (
     <main>
       <Row className="d-flex align-items-center my-3">
-        <h5 className="m-0">Exploring now :</h5>
-  
-        <p className="my-0 ml-3">
-          <span>{commitList.repoOwnerNickname}</span>{" "}|{" "}
-          <span className="text-primary font-weight-bold">{commitList.repoName}</span>
-        </p>
+        <Col className="d-flex" sm={7}>
+          <h5 className="m-0">Exploring now :</h5>
+
+          <p className="my-0 ml-3">
+            <span>{commitList.repoOwnerNickname}</span> |{" "}
+            <a
+              href={`https://www.github.com/${commitList.repoOwnerNickname}/${commitList.repoName}`}
+            >
+              <span className="text-primary font-weight-bold">
+                {commitList.repoName}
+              </span>
+            </a>
+            <small className="ml-2">
+              ({commitList.commitList.length} commits)
+            </small>
+          </p>
+        </Col>
+        <Col className="d-flex align-items-center justify-content-end" sm={5}>
+          <span className="mr-2">{commitList.repoOwnerNickname}'s repos: </span>
+
+          <DropdownButton title={commitList.repoName}>
+            {commitList.repos.map((item) => (
+              <Dropdown.Item href="#/action-1">
+                {item.name} - <span className="text-muted">{item.language}</span>
+              </Dropdown.Item>
+            ))}
+          </DropdownButton>
+        </Col>
+      </Row>
+      <Row className="mb-3">
+        <DropdownButton title={commitList.branch} variant="secondary">
+          {commitList.branches.map((item) => (
+            <Dropdown.Item href="#/action-1">{item}</Dropdown.Item>
+          ))}
+        </DropdownButton>
       </Row>
 
       <Table striped bordered hover responsive className="table-sm">
@@ -49,13 +86,17 @@ const Commits: React.FC = () => {
                     src={commit.committerAvatarUrl}
                     alt={commit.committerName}
                   />
-                  <span className="ml-2 font-weight-bolder">
-                    {commit.committerNickname}
-                  </span>
+                  <a
+                    href={`https://www.github.com/${commitList.repoOwnerNickname}`}
+                  >
+                    <span className="ml-2 font-weight-bolder text-dark">
+                      {commit.committerNickname}
+                    </span>
+                  </a>
                 </div>
               </td>
 
-              <td className="align-middle p-3">
+              <td className="align-middle p-3 d-flex justify-content-center">
                 <a href={commit.commitHtmlUrl}>
                   <Button variant="outline-primary" className="btn-sm">
                     See details in github

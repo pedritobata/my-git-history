@@ -6,6 +6,7 @@ import GithubBranch from "../../../models/githubBranch";
 import GithubRepo from "../../../models/githubRepo";
 
 export default function (
+  additionalInfo: any,
   commitList: GithubCommitItem[],
   branchList: GithubBranch[],
   repoList: GithubRepo[]
@@ -13,11 +14,12 @@ export default function (
   const response: CommitListResponse = {
     repoName: getRepoNameFromUrl(commitList[0].url as string),
     repoOwnerNickname: commitList[0].author.login as string,
+    branch: additionalInfo.branch,
     authorName: getValidAuthorName(commitList),
     authorAvatarUrl: getValidAuthorAvatarUrl(commitList),
     commitList: mapCommitList(commitList),
-    branches: mapBranchList(branchList),
-    repos: mapRepoList(repoList),
+    branches: mapBranchList(branchList, additionalInfo.branch),
+    repos: mapRepoList(repoList, additionalInfo.reponame),
   };
 
   return response;
@@ -60,12 +62,12 @@ function getValidAuthorAvatarUrl(commitList: GithubCommitItem[]) : string {
   return validAuthorAvatarUrl;
 }
 
-function mapBranchList(branchList: GithubBranch[]): string[] {
-  return branchList.map((item) => item.name);
+function mapBranchList(branchList: GithubBranch[], currentBranch: string): string[] {
+  return branchList.filter(item => item.name !== currentBranch).map((item) => item.name);
 }
 
-function mapRepoList(repoList: GithubRepo[]): GithubRepo[] {
-  return repoList.map((item) => {
+function mapRepoList(repoList: GithubRepo[], reponame: string): GithubRepo[] {
+  return repoList.filter(item => item.name !== reponame).map((item) => {
     return {
       name: item.name,
       html_url: item.html_url,

@@ -1,13 +1,13 @@
 import React from "react";
 import { Container } from "react-bootstrap";
-import Toolbar from "../../components/toolbar/Toolbar";
+import Header from "../../components/header/Header";
 
 type LayoutProps = {};
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div>
-      <Toolbar />
+      <Header />
       <Container>{children}</Container>
     </div>
   );

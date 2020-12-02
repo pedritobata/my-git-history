@@ -12,6 +12,8 @@ const initialState: CommitsState = {
     commitList: [],
     repoName: "",
     repoOwnerNickname: "",
+    authorName: "",
+    authorAvatarUrl: ""
   },
   error: "",
   loading: true,

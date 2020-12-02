@@ -1,7 +1,7 @@
 import CommitsState from './commitsState';
-import User from './user';
+import UserState from './userState';
 
 export default interface State {
   commits: CommitsState;
-  user: User
+  user: UserState
 }

@@ -28,6 +28,8 @@ const ModalExploreUser: React.FC<ModalExploreUserProps> = (props) => {
       return setShowErrorMessage(true);
     }
     dispatch(listCommits(enteredUser, 'xxx', 'master'));
+    setEnteredUser('');
+    setShowErrorMessage(false);
     props.onHide();
   };
 

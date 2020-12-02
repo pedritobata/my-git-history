@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Jumbotron,
   Container,
@@ -7,17 +7,25 @@ import {
   Image,
   Button,
 } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import State from "../../store/interfaces/state";
 import Loader from '../commons/Loader';
 import ModalExploreUser from "../modalExploreUser/ModalExploreUser";
+import { getUser} from '../../store/actions/userActions';
 
 type HeaderProps = {};
 
+const DEFAULT_OWNER = "pedritobata";
+
 const Header: React.FC<HeaderProps> = ({ children }) => {
-  const { commitList, loading } = useSelector((state: State) => state.commits);
+  const { user, loading, error } = useSelector((state: State) => state.user);
+  const dispatch = useDispatch();
 
   const [showModal, setShowModal] = useState(false);
+
+  useEffect(()=> {
+    dispatch(getUser(DEFAULT_OWNER));
+  },[]);
 
   const openChangeUserHandler = () => {
     setShowModal(true);
@@ -46,16 +54,16 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
                 loading ? <Loader  /> : 
                 (
                   <div className="d-flex flex-column align-items-center">
-                <a href={`https://www.github.com/${commitList.repoOwnerNickname}`}>
+                <a href={`https://www.github.com/${user.login}`}>
                   <Image
                     className="rounded-circle"
                     style={{ width: "150px" }}
                     fluid
-                    src={commitList.authorAvatarUrl}
-                    alt={commitList.authorName}
+                    src={user.avatar_url}
+                    alt={user.login}
                   />
                 </a>
-                <p className="font-weight-bold">{commitList.authorName}</p>
+                <p className="font-weight-bold">{user.name ? user.name : user.login}</p>
                 <Button onClick={openChangeUserHandler} variant="outline-success">Explore other user repo</Button>
               </div>
                 )

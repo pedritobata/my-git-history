@@ -1,4 +1,3 @@
-import Commits from "../../pages/commits/Commits";
 import {
   COMMIT_LIST_REQUEST,
   COMMIT_LIST_SUCCESS,

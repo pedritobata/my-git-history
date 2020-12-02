@@ -13,6 +13,8 @@ export default function (
   const response: CommitListResponse = {
     repoName: getRepoNameFromUrl(commitList[0].url as string),
     repoOwnerNickname: commitList[0].author.login as string,
+    authorName: getValidAuthorName(commitList),
+    authorAvatarUrl: getValidAuthorAvatarUrl(commitList),
     commitList: mapCommitList(commitList),
     branches: mapBranchList(branchList),
     repos: mapRepoList(repoList),
@@ -28,12 +30,34 @@ function mapCommitList(commitList: GithubCommitItem[]): CommitResponse[] {
       .setCommitHtmlRepoSnapshotUrl(item.commit.tree.url)
       .setCommitHtmlUrl(item.html_url as string)
       .setCommitMessage(item.commit.message)
-      .setCommitterAvatarUrl(item.author.avatar_url)
-      .setCommitterEmail(item.commit.author.email as string)
-      .setCommitterName(item.commit.author.name)
+      .setCommitterAvatarUrl(item.committer.avatar_url)
+      .setCommitterEmail(item.commit.committer.email as string)
+      .setCommitterName(item.commit.committer.name)
       .setCommitterNickname(item.committer.login)
       .build();
   });
+}
+
+function getValidAuthorName(commitList: GithubCommitItem[]) : string {
+  let validAuthorName = '';
+  for(let item of commitList){
+    if(item.commit.author.name !== 'unknown' && item.commit.author.name !== '') {
+      validAuthorName = item.commit.author.name;
+      break;
+    }
+  }
+  return validAuthorName;
+}
+
+function getValidAuthorAvatarUrl(commitList: GithubCommitItem[]) : string {
+  let validAuthorAvatarUrl = '';
+  for(let item of commitList){
+    if(item.author.avatar_url !== 'unknown' && item.author.avatar_url !== '') {
+      validAuthorAvatarUrl = item.author.avatar_url;
+      break;
+    }
+  }
+  return validAuthorAvatarUrl;
 }
 
 function mapBranchList(branchList: GithubBranch[]): string[] {

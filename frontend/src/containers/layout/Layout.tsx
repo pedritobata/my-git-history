@@ -8,7 +8,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div>
       <Toolbar />
-      <Container fluid>{children}</Container>
+      <Container>{children}</Container>
     </div>
   );
 };

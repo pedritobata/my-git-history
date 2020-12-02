@@ -7,11 +7,9 @@ function App() {
 
 
   return (
-    <div>
      <Layout>
        <Commits />
      </Layout>
-    </div>
   );
 }
 

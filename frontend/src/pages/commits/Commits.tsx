@@ -39,7 +39,7 @@ const Commits: React.FC = () => {
         <tbody>
           {commitList.commitList.map((commit) => (
             <tr key={commit.commitDate}>
-              <td className="d-flex flex-column p-2">
+              <td className="flex-column p-2">
                 <span>{commit.commitMessage}</span>
                 <div>
                   <Image

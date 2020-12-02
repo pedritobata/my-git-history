@@ -1,6 +1,21 @@
 import OperationConfig from "../../interfaces/OperationConfig";
 import basic = require('basic-authorization-header');
 
+
+export const getUserConfig = (
+  nickname: string
+): OperationConfig => {
+  return {
+    method: 'GET',
+    url: `https://api.github.com/users/${nickname}`,
+    headers: {
+      Authorization: basic(process.env.CLIENT_ID, process.env.CLIENT_SECRET),
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+  };
+};
+
+
 export const getCommitListConfig = (
   ownerNickname: string,
   repoName: string, 

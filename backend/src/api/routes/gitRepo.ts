@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getCommitListController } from "../../controllers/gitController";
+import { getCommitListController } from "../../controllers/gitRepoController";
 
 export default (app: Router) => {
   app.use("/github-repos", app); //prefix

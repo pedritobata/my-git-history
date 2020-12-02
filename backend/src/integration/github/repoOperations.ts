@@ -5,7 +5,7 @@ import { AxiosInstance, AxiosRequestConfig } from "axios";
 import { Logger } from "winston";
 
 @Service()
-export default class GithubOperations {
+export default class GithubRepoOperations {
   private logger: Logger = Container.get(config.dependencyInjection.logger);
   private axios: AxiosInstance = Container.get(
     config.dependencyInjection.axios

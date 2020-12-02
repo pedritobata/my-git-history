@@ -7,12 +7,12 @@ export default class GithubOperations {
     owner: string,
     repo: string,
     branch: string
-  ) {
-    let commitList = null;
+  ) : Promise<CommitList>{
+    let commitList: Promise<CommitList> | null = null;
     const response = await axios.get(
       `/api/github-repos/${owner}/${repo}/commits?sha=${branch}`
     );
-    commitList = response.data;
+    commitList = response.data as Promise<CommitList>;
     console.log("commitList >>>", commitList);
 
     return commitList;

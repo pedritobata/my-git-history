@@ -15,8 +15,6 @@ export default function (
     repoName: getRepoNameFromUrl(commitList[0].url as string),
     repoOwnerNickname: commitList[0].author.login as string,
     branch: additionalInfo.branch,
-    authorName: getValidAuthorName(commitList),
-    authorAvatarUrl: getValidAuthorAvatarUrl(commitList),
     commitList: mapCommitList(commitList),
     branches: mapBranchList(branchList, additionalInfo.branch),
     repos: mapRepoList(repoList, additionalInfo.reponame),
@@ -38,28 +36,6 @@ function mapCommitList(commitList: GithubCommitItem[]): CommitResponse[] {
       .setCommitterNickname(item.committer.login)
       .build();
   });
-}
-
-function getValidAuthorName(commitList: GithubCommitItem[]) : string {
-  let validAuthorName = '';
-  for(let item of commitList){
-    if(item.commit.author.name !== 'unknown' && item.commit.author.name !== '') {
-      validAuthorName = item.commit.author.name;
-      break;
-    }
-  }
-  return validAuthorName;
-}
-
-function getValidAuthorAvatarUrl(commitList: GithubCommitItem[]) : string {
-  let validAuthorAvatarUrl = '';
-  for(let item of commitList){
-    if(item.author.avatar_url !== 'unknown' && item.author.avatar_url !== '') {
-      validAuthorAvatarUrl = item.author.avatar_url;
-      break;
-    }
-  }
-  return validAuthorAvatarUrl;
 }
 
 function mapBranchList(branchList: GithubBranch[], currentBranch: string): string[] {

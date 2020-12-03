@@ -151,9 +151,53 @@ const Commits: React.FC = () => {
       ) : error ? (
         <Message variant="danger">{error}</Message>
       ) : 
+
+      commitList.commitList.reduce((acc,commit,index) => {
+        const commitItem = (<tr key={commit.commitDate}>
+          <td className="flex-column p-2">
+            <span>{commit.commitMessage}</span>
+            <div>
+              <Image
+                className="rounded-circle"
+                style={{ width: "20px" }}
+                fluid
+                src={commit.committerAvatarUrl}
+                alt={commit.committerName}
+              />
+              <a
+                href={`https://www.github.com/${commitList.repoOwnerNickname}`}
+              >
+                <span className="ml-2 font-weight-bolder text-dark">
+                  {commit.committerNickname}
+                </span>
+              </a>
+            </div>
+          </td>
+  
+          <td className="align-middle p-3 d-flex justify-content-center">
+            <a href={commit.commitHtmlUrl}>
+              <Button variant="outline-primary" className="btn-sm">
+                See details in github
+              </Button>
+            </a>
+          </td>
+        </tr>);
+        if(!isSameYearMonthDay(currentDate,commit.commitDate)) { 
+          if(index !== 0){
+            result.push((</tbody></Table>);
+          }
+          result.push(<Table striped bordered hover responsive className="table-sm"><tbody>);
+          result.push(commitItem);
+              
+        } else {
+          result.push(commitItem);
+        }
+
+        return {currentDate: commit.commitDate, finalHtml: result};
+      }, {currentDate: new Date().toISOString(), finalHtml: null})
         
-          buildCommitsTableGroupedByDate() 
-       /* 
+          //buildCommitsTableGroupedByDate() 
+       {/* 
           <Table striped bordered hover responsive className="table-sm">
           <tbody>
             {commitList.commitList.map((commit) => (

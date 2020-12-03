@@ -12,6 +12,9 @@ type HeaderProps = {};
 
 const Header: React.FC<HeaderProps> = ({ children }) => {
   const { user, loading, error } = useSelector((state: State) => state.user);
+  const { commitList } = useSelector(
+    (state: State) => state.commits
+  );
   const dispatch = useDispatch();
 
   const [showModal, setShowModal] = useState(false);
@@ -49,31 +52,29 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
                 any Github repo you want to.
               </p>
             </Col>
-            <Col sm={4} className="d-flex flex-column align-items-center"
-            style={{ width: "180px", height: "180px" }}>
-              {loading ? (
+            <Col sm={4}
+            style={{ width: "180px" }}>
+              {loading && !commitList.repoName ? (
                 <Loader animation="grow" variant="light" style={{ width: "100%", height: "100%" }}/>
               ) : (
-                <div className="h-100 w-100">
-                  <a
+                <div className="h-100 w-100 d-flex flex-column align-items-center">
+                  <a className="justify-content-center d-flex"
                   href={`https://www.github.com/${user.login}`}>
                     <Image
-                      className="rounded-circle w-75 h-75"
-                     
-                      
+                      className="rounded-circle w-50 mx-auto"
                       src={user.avatar_url}
                       alt={user.login}
                     />
                   </a>
-                  <p className="font-weight-bold text-white">
+                  <p className="font-weight-bold text-white mt-2">
                     {user.name ? user.name : user.login}
                   </p>
                   <Button
                     onClick={openChangeUserHandler}
                     variant="outline-success"
-                    size="sm"
+                    size="lg"
                   >
-                    Explore other user's repo
+                    Explore other user's repos
                   </Button>
                   </div>
               )}

@@ -14,7 +14,7 @@ export const listCommits = (owner: string, repo: string, branch: string) => {
       if(commits.commitList.length === 0){
         throw new Error("No commits were found.");
       }
-      dispatch({ type: COMMIT_LIST_SUCCESS, payload: commits });
+      await dispatch({ type: COMMIT_LIST_SUCCESS, payload: commits });
       dispatch(getUser(owner));
     } catch (error) {
       console.error("Failed fetching commit list from api");

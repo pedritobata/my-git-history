@@ -31,6 +31,10 @@ const Commits: React.FC = () => {
     dispatch(listCommits(user.login, commitList.repoName, selectedBranch));
   }
 
+  const repoChangeHandler = (repo: string) => {
+    dispatch(listCommits(user.login, repo, 'master'));
+  }
+
   return <main>
       {
         (loading && !commitList.repoName) ? (
@@ -62,8 +66,8 @@ const Commits: React.FC = () => {
       
                 <DropdownButton title={commitList.repoName}>
                   {commitList.repos.map((item) => (
-                    <Dropdown.Item href="#/action-1">
-                      {item.name} - <span className="text-muted">{item.language}</span>
+                    <Dropdown.Item onClick={repoChangeHandler.bind(null,item.name)}>
+                      {item.name} - <span className="font-weight-lighter">{item.language}</span>
                     </Dropdown.Item>
                   ))}
                 </DropdownButton>

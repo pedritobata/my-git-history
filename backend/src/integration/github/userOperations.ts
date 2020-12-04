@@ -11,6 +11,10 @@ export default class GithubUserOperations {
     config.dependencyInjection.axios
   );
 
+  /**
+   * This method fetches the user registered for a specific nickname by invoking the Github API
+   * @param nickName 
+   */
   public async getUserbyNickname(
     nickName: string,
   ) {

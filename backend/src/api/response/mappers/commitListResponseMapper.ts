@@ -5,6 +5,13 @@ import CommitResponse from "../interfaces/commitResponse";
 import GithubBranch from "../../../models/githubBranch";
 import GithubRepo from "../../../models/githubRepo";
 
+/**
+ * This function builds the final response for the commitList service
+ * @param additionalInfo - fields that are not part of an entity
+ * @param commitList 
+ * @param branchList 
+ * @param repoList 
+ */
 export default function (
   additionalInfo: any,
   commitList: GithubCommitItem[],

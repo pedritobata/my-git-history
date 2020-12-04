@@ -53,7 +53,7 @@ const Commits: React.FC = () => {
       ) : (
         <>
           <Row className="d-flex align-items-center my-3">
-            <Col className="d-flex" sm={7}>
+            <Col className="d-flex my-2" md={7} xs={12}>
               <h5 className="m-0">Exploring now :</h5>
 
               <p className="my-0 ml-3">
@@ -71,8 +71,8 @@ const Commits: React.FC = () => {
               </p>
             </Col>
             <Col
-              className="d-flex align-items-center justify-content-end"
-              sm={5}
+              className="d-flex align-items-center justify-content-end my-2"
+              md={5} xs={12}
             >
               <span className="mr-2">
                 {commitList.repoOwnerNickname || "unknown"}'s repos:{" "}
@@ -90,7 +90,7 @@ const Commits: React.FC = () => {
               </DropdownButton>
             </Col>
           </Row>
-          <Row className="mb-3">
+          <Row className="mb-3 ml-2">
             <DropdownButton
               title={<i className="fas fa-code-branch">{commitList.branch}</i>}
               variant="secondary"

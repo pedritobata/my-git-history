@@ -1,6 +1,10 @@
 import GihubUser from "../../../interfaces/githubUser";
 import UserResponse from '../interfaces/userResponse';
 
+/**
+ * This function builds the final response for the user service
+ * @param user 
+ */
 export default function (
  user: GihubUser
 ): UserResponse {

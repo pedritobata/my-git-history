@@ -1,4 +1,5 @@
 import cors = require("cors");
+import path = require("path");
 import express = require("express");
 import routes from "../api";
 import config from "../config";
@@ -27,6 +28,23 @@ export default (app: express.Application) => {
    */
   app.use(config.api.prefix, routes());
 
+
+  const __dirname = path.resolve();
+  /**
+   * Production
+   */
+  if(process.env.NODE_ENV === 'production'){
+    app.use(express.static(path.join(__dirname, '/frontend/build')));
+
+    app.get('*', (req,res)=>res.sendFile(path.resolve(__dirname,'frontend','build','index.html')));
+  } else {
+    app.get("/", (req, res) => {
+      res.status(200).json({ message: "App Backend running running..." });
+    });
+  }
+
+
+
   /**
    * Resource not found. No matching route
    */
@@ -40,7 +58,7 @@ export default (app: express.Application) => {
    * Error handlers
    */
   app.use((err: Error, req: express.Request, res: express.Response, next) => {
-    res.status(err.status || 500);
+    res.status(err["status"] || 500);
     const Logger = Container.get(config.dependencyInjection.logger) as Logger;
     Logger.error(err);
     res.json({

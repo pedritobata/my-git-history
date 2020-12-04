@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Jumbotron, Container, Row, Col, Image, Button } from "react-bootstrap";
-import { useSelector, useDispatch } from "react-redux";
-import State from "../../store/interfaces/state";
 import Loader from "../commons/Loader";
 import ModalExploreUser from "../modalExploreUser/ModalExploreUser";
 import { getUser } from "../../store/actions/userActions";
 import { DEFAULT_OWNER } from "../../store/constants/commonConstants";
+import {useHeader} from './hooks/useHeader';
 
 type HeaderProps = {};
 
 const Header: React.FC<HeaderProps> = ({ children }) => {
-  const { user, loading, error } = useSelector((state: State) => state.user);
-  const { commitList } = useSelector((state: State) => state.commits);
-  const dispatch = useDispatch();
+  
+  const { user, loading, error } = useHeader();
+  const { commitList } = useHeader();
+  const {dispatch} = useHeader();
 
-  const [showModal, setShowModal] = useState(false);
+  const {showModal, setShowModal} = useHeader();
 
   useEffect(() => {
     if (user?.login) {

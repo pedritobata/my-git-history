@@ -18,6 +18,7 @@ export default class GithubUserOperations {
     try {
       const response = await this.axios(<AxiosRequestConfig>getUserConfig(nickName));
       data = response.data;
+      //console.log("response>>>", response);
     } catch (error) {
       this.logger.error(error);
       throw new Error(`Github users API operation failed: ${error}`);

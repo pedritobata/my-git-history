@@ -73,6 +73,7 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
                     onClick={openChangeUserHandler}
                     variant="outline-success"
                     size="lg"
+                    className="text-nowrap"
                   >
                     Explore other user's repos
                   </Button>

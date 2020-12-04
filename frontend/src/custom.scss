@@ -1,0 +1,27 @@
+
+
+$enable-rounded: "false";
+$enable-shadows: "false";
+
+
+@import '~bootstrap/scss/bootstrap';
+
+// Buttons
+
+.btn-outline-success.focus, .btn-outline-success:focus{
+    box-shadow: none;
+}
+
+.btn:focus, .btn.focus {
+    outline: 0;
+    box-shadow: none;
+}
+
+button.btn-primary.focus, button.btn-primary:focus{
+    box-shadow: 0 0 0 0 transparent;
+}
+
+
+button.btn {
+    border-radius: 0px;
+}

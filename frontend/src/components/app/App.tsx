@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import './App.css';
+import './App.scss';
 import Layout from '../../containers/layout/Layout';
 import Commits from '../../pages/commits/Commits';
 

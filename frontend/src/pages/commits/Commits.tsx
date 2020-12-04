@@ -18,8 +18,7 @@ import {
   DEFAULT_BRANCH,
   DEFAULT_REPO,
 } from "../../store/constants/commonConstants";
-import { formatDatePresentation, extractTime, isSameYearMonthDay } from '../../utils/utils';
-import { JsxElement } from "typescript";
+import { buildCommitListGroupedByDate, extractTime } from "../../utils/utils";
 
 const Commits: React.FC = () => {
   const { commitList, loading, error } = useSelector(
@@ -39,55 +38,6 @@ const Commits: React.FC = () => {
   const repoChangeHandler = (repo: string) => {
     dispatch(listCommits(user.login, repo, "master"));
   };
-
-  const buildCommitsTableGroupedByDate = () => {
-    let result: JSX.Element[] = [];
-    let currentDate = new Date().toISOString();
-    commitList.commitList.forEach((commit, index) => {
-      const commitItem = (<tr key={commit.commitDate}>
-        <td className="flex-column p-2">
-          <span>{commit.commitMessage}</span>
-          <div>
-            <Image
-              className="rounded-circle"
-              style={{ width: "20px" }}
-              fluid
-              src={commit.committerAvatarUrl}
-              alt={commit.committerName}
-            />
-            <a
-              href={`https://www.github.com/${commitList.repoOwnerNickname}`}
-            >
-              <span className="ml-2 font-weight-bolder text-dark">
-                {commit.committerNickname}
-              </span>
-            </a>
-          </div>
-        </td>
-
-        <td className="align-middle p-3 d-flex justify-content-center">
-          <a href={commit.commitHtmlUrl}>
-            <Button variant="outline-primary" className="btn-sm">
-              See details in github
-            </Button>
-          </a>
-        </td>
-      </tr>);
-      if(!isSameYearMonthDay(currentDate,commit.commitDate)) { 
-        if(index !== 0){
-          result.push(</tbody></Table>);
-        }
-        result.push(<Table striped bordered hover responsive className="table-sm"><tbody>);
-        result.push(commitItem);
-            
-      } else {
-        result.push(commitItem);
-      }
-    });
-    result.push(</tbody></Table>);
-
-  return (<>{result}</>);
-  }
 
   return (
     <main>
@@ -150,93 +100,58 @@ const Commits: React.FC = () => {
         <Loader animation="border" variant="primary" />
       ) : error ? (
         <Message variant="danger">{error}</Message>
-      ) : 
+      ) : (
+        Object.entries(buildCommitListGroupedByDate(commitList.commitList)).map(
+          ([date, commits]) => {
+            return (
+              <>
+                <p>Commits on {date}</p>
+                <Table striped bordered hover responsive className="table-sm">
+                  <tbody>
+                    {commits.map((commit) => (
+                      <tr key={commit.commitDate}>
+                        <td className="flex-column p-2 w-75">
+                          <span>{commit.commitMessage}</span>
+                          <div>
+                            <Image
+                              className="rounded-circle"
+                              style={{ width: "20px" }}
+                              fluid
+                              src={commit.committerAvatarUrl}
+                              alt={commit.committerName}
+                            />
+                            <a
+                              href={`https://www.github.com/${commitList.repoOwnerNickname}`}
+                            >
+                              <span className="ml-2 font-weight-bolder text-dark">
+                                {commit.committerNickname}
+                              </span>
+                            </a>
+                            <span className="text-primary ml-2">
+                              committed at {extractTime(commit.commitDate)}
+                            </span>
+                          </div>
+                        </td>
 
-      commitList.commitList.reduce((acc,commit,index) => {
-        const commitItem = (<tr key={commit.commitDate}>
-          <td className="flex-column p-2">
-            <span>{commit.commitMessage}</span>
-            <div>
-              <Image
-                className="rounded-circle"
-                style={{ width: "20px" }}
-                fluid
-                src={commit.committerAvatarUrl}
-                alt={commit.committerName}
-              />
-              <a
-                href={`https://www.github.com/${commitList.repoOwnerNickname}`}
-              >
-                <span className="ml-2 font-weight-bolder text-dark">
-                  {commit.committerNickname}
-                </span>
-              </a>
-            </div>
-          </td>
-  
-          <td className="align-middle p-3 d-flex justify-content-center">
-            <a href={commit.commitHtmlUrl}>
-              <Button variant="outline-primary" className="btn-sm">
-                See details in github
-              </Button>
-            </a>
-          </td>
-        </tr>);
-        if(!isSameYearMonthDay(currentDate,commit.commitDate)) { 
-          if(index !== 0){
-            result.push((</tbody></Table>);
+                        <td className="align-middle">
+                          <a className="text-decoration-none" href={commit.commitHtmlUrl}>
+                            <Button
+                              variant="outline-primary"
+                              className="btn-sm d-block m-auto"
+                            >
+                              See details in github
+                            </Button>
+                          </a>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </>
+            );
           }
-          result.push(<Table striped bordered hover responsive className="table-sm"><tbody>);
-          result.push(commitItem);
-              
-        } else {
-          result.push(commitItem);
-        }
-
-        return {currentDate: commit.commitDate, finalHtml: result};
-      }, {currentDate: new Date().toISOString(), finalHtml: null})
-        
-          //buildCommitsTableGroupedByDate() 
-       {/* 
-          <Table striped bordered hover responsive className="table-sm">
-          <tbody>
-            {commitList.commitList.map((commit) => (
-              <tr key={commit.commitDate}>
-                <td className="flex-column p-2">
-                  <span>{commit.commitMessage}</span>
-                  <div>
-                    <Image
-                      className="rounded-circle"
-                      style={{ width: "20px" }}
-                      fluid
-                      src={commit.committerAvatarUrl}
-                      alt={commit.committerName}
-                    />
-                    <a
-                      href={`https://www.github.com/${commitList.repoOwnerNickname}`}
-                    >
-                      <span className="ml-2 font-weight-bolder text-dark">
-                        {commit.committerNickname}
-                      </span>
-                    </a>
-                  </div>
-                </td>
-
-                <td className="align-middle p-3 d-flex justify-content-center">
-                  <a href={commit.commitHtmlUrl}>
-                    <Button variant="outline-primary" className="btn-sm">
-                      See details in github
-                    </Button>
-                  </a>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-            </Table> 
-          */
-          
-          }
-      
+        )
+      )}
     </main>
   );
 };

@@ -18,12 +18,12 @@ export default class GitRepoServiceImpl implements GitRepoService {
     owner: string,
     reponame: string,
     branch: string
-  ) : Promise<CommitListResponse>{
+  ) : Promise<CommitListResponse | {}>{
 
     const responseRepoList: GithubRepo[] = await this.githubRepoOperations.getReposByOwner(
       owner
     );
-    if(reponame === 'xxx'){//if no reponame is provided, assign the first repo fetched from API
+    if(reponame === 'xxx' && responseRepoList.length > 0){//if no reponame is provided, assign the first repo fetched from API
       reponame = responseRepoList[0].name;
     }
     this.logger.info(`Repo List retrieved contains ${responseRepoList.length} elements.`);
@@ -42,10 +42,6 @@ export default class GitRepoServiceImpl implements GitRepoService {
     this.logger.info(`Branch List retrieved contains ${responseBranchList.length} elements.`);
  
 
-    if (!responseCommitList || responseCommitList.length === 0) {
-      this.logger.error("No commits found for this repo");
-      throw new Error("No commits found for this repo");
-    }
     const additionalInfo = {branch, reponame}
     return commitListResponseMapper(additionalInfo, responseCommitList, responseBranchList, responseRepoList);
   }

@@ -8,6 +8,7 @@ import {
   Image,
   DropdownButton,
   Dropdown,
+  Badge,
 } from "react-bootstrap";
 import State from "../../store/interfaces/state";
 import { listCommits } from "../../store/actions/commitActions";
@@ -39,6 +40,10 @@ const Commits: React.FC = () => {
     dispatch(listCommits(user.login, repo, "master"));
   };
 
+  const refreshCommitsHandler = () => {
+    dispatch(listCommits(user.login, commitList.repoName, commitList.branch));
+  }
+
   return (
     <main>
       {loading && !commitList.repoName ? (
@@ -52,7 +57,7 @@ const Commits: React.FC = () => {
               <h5 className="m-0">Exploring now :</h5>
 
               <p className="my-0 ml-3">
-                <span>{commitList.repoOwnerNickname}</span> |{" "}
+                <span>{commitList.repoOwnerNickname || "unknown"}</span> |{" "}
                 <a
                   href={`https://www.github.com/${commitList.repoOwnerNickname}/${commitList.repoName}`}
                 >
@@ -70,7 +75,7 @@ const Commits: React.FC = () => {
               sm={5}
             >
               <span className="mr-2">
-                {commitList.repoOwnerNickname}'s repos:{" "}
+                {commitList.repoOwnerNickname || "unknown"}'s repos:{" "}
               </span>
 
               <DropdownButton title={commitList.repoName}>
@@ -86,13 +91,29 @@ const Commits: React.FC = () => {
             </Col>
           </Row>
           <Row className="mb-3">
-            <DropdownButton title={commitList.branch} variant="secondary">
-              {commitList.branches.map((item) => (
-                <Dropdown.Item onClick={branchChangeHandler.bind(null, item)}>
-                  {item}
-                </Dropdown.Item>
-              ))}
+            <DropdownButton
+              title={<i className="fas fa-code-branch">{commitList.branch}</i>}
+              variant="secondary"
+            >
+              {commitList.branches.map((item) => {
+                return commitList.branches.length === 0 ? (
+                  "No branches found"
+                ) : (
+                  <Dropdown.Item onClick={branchChangeHandler.bind(null, item)}>
+                    {item}
+                  </Dropdown.Item>
+                );
+              })}
             </DropdownButton>
+            <Badge
+              className="p-2 d-flex justify-content-center align-items-center mx-3"
+              pill
+              variant="success"
+              style={{width: "5rem", fontSize: ".9rem", cursor: "pointer"}}
+              onClick={refreshCommitsHandler}
+            >
+              <i className="fas fa-sync">Refresh</i>
+            </Badge>
           </Row>
         </>
       )}
@@ -105,7 +126,7 @@ const Commits: React.FC = () => {
           ([date, commits]) => {
             return (
               <>
-                <p>Commits on {date}</p>
+                <p className="text-body">Commits on {date}</p>
                 <Table striped bordered hover responsive className="table-sm">
                   <tbody>
                     {commits.map((commit) => (
@@ -134,7 +155,10 @@ const Commits: React.FC = () => {
                         </td>
 
                         <td className="align-middle">
-                          <a className="text-decoration-none" href={commit.commitHtmlUrl}>
+                          <a
+                            className="text-decoration-none"
+                            href={commit.commitHtmlUrl}
+                          >
                             <Button
                               variant="outline-primary"
                               className="btn-sm d-block m-auto"

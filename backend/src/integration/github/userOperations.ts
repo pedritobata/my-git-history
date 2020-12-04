@@ -14,15 +14,12 @@ export default class GithubUserOperations {
   public async getUserbyNickname(
     nickName: string,
   ) {
-    let data = null;
-    try {
-      const response = await this.axios(<AxiosRequestConfig>getUserConfig(nickName));
-      data = response.data;
-      //console.log("response>>>", response);
-    } catch (error) {
-      this.logger.error(error);
-      throw new Error(`Github users API operation failed: ${error}`);
-    }
+    let data = {};
+      const response = await this.axios(<AxiosRequestConfig>getUserConfig(nickName))
+      .catch(err => this.logger.error("Failed fetching user operation >>>>", err));
+      if(response.data){
+        data = response.data; 
+      }
 
     return data;
   }

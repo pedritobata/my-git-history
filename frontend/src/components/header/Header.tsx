@@ -9,20 +9,17 @@ import { DEFAULT_OWNER } from "../../store/constants/commonConstants";
 
 type HeaderProps = {};
 
-
 const Header: React.FC<HeaderProps> = ({ children }) => {
   const { user, loading, error } = useSelector((state: State) => state.user);
-  const { commitList } = useSelector(
-    (state: State) => state.commits
-  );
+  const { commitList } = useSelector((state: State) => state.commits);
   const dispatch = useDispatch();
 
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    if(user?.login){
+    if (user?.login) {
       dispatch(getUser(user.login));
-    }else{
+    } else {
       dispatch(getUser(DEFAULT_OWNER));
     }
   }, []);
@@ -45,21 +42,26 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
       <Jumbotron className="bg-dark" fluid>
         <Container>
           <Row>
-            <Col sm={8}>
+            <Col xs={12} md={8}>
               <h1 className="text-white">Commit Explorer</h1>
               <p className="text-white">
                 Here you can see all the commits that were made to any branch in
                 any Github repo you want to.
               </p>
             </Col>
-            <Col sm={4}
-            style={{ width: "180px" }}>
+            <Col xs={12} md={4} style={{ width: "180px" }}>
               {loading && !commitList.repoName ? (
-                <Loader animation="grow" variant="light" style={{ width: "100%", height: "100%" }}/>
+                <Loader
+                  animation="grow"
+                  variant="light"
+                  style={{ width: "100%", height: "100%" }}
+                />
               ) : (
                 <div className="h-100 w-100 d-flex flex-column align-items-center">
-                  <a className="justify-content-center d-flex"
-                  href={`https://www.github.com/${user.login}`}>
+                  <a
+                    className="justify-content-center d-flex"
+                    href={`https://www.github.com/${user.login}`}
+                  >
                     <Image
                       className="rounded-circle w-50 mx-auto"
                       src={user.avatar_url}
@@ -77,7 +79,7 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
                   >
                     Explore other user's repos
                   </Button>
-                  </div>
+                </div>
               )}
             </Col>
           </Row>

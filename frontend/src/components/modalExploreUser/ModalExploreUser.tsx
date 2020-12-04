@@ -40,7 +40,7 @@ const ModalExploreUser: React.FC<ModalExploreUserProps> = (props) => {
   }
 
   return (
-    <Modal  {...props} onHide={hideHandler} aria-labelledby="contained-modal-title-vcenter" centered>
+    <Modal  {...props} onHide={hideHandler} aria-labelledby="contained-modal-title-vcenter" autofocus centered>
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
           Explore a new User

@@ -10,10 +10,13 @@ export default function (
   commitList: GithubCommitItem[],
   branchList: GithubBranch[],
   repoList: GithubRepo[]
-): CommitListResponse {
+): CommitListResponse | {} {
+  if(commitList.length === 0 || branchList.length=== 0 || repoList.length === 0){
+    return {};
+  }
   const response: CommitListResponse = {
     repoName: getRepoNameFromUrl(commitList[0].url as string),
-    repoOwnerNickname: commitList[0].author.login as string,
+    repoOwnerNickname: commitList[0].author?.login as string,
     branch: additionalInfo.branch,
     commitList: mapCommitList(commitList),
     branches: mapBranchList(branchList, additionalInfo.branch),
@@ -26,14 +29,14 @@ export default function (
 function mapCommitList(commitList: GithubCommitItem[]): CommitResponse[] {
   return commitList.map((item) => {
     return CommitResponse.builder()
-      .setCommitDate(item.commit.author.date)
-      .setCommitHtmlRepoSnapshotUrl(item.commit.tree.url)
+      .setCommitDate(item.commit?.author.date)
+      .setCommitHtmlRepoSnapshotUrl(item.commit?.tree.url)
       .setCommitHtmlUrl(item.html_url as string)
-      .setCommitMessage(item.commit.message)
-      .setCommitterAvatarUrl(item.committer.avatar_url)
-      .setCommitterEmail(item.commit.committer.email as string)
-      .setCommitterName(item.commit.committer.name)
-      .setCommitterNickname(item.committer.login)
+      .setCommitMessage(item.commit?.message)
+      .setCommitterAvatarUrl(item.committer?.avatar_url)
+      .setCommitterEmail(item.commit?.committer.email as string)
+      .setCommitterName(item.commit?.committer.name)
+      .setCommitterNickname(item.committer?.login)
       .build();
   });
 }
@@ -45,10 +48,10 @@ function mapBranchList(branchList: GithubBranch[], currentBranch: string): strin
 function mapRepoList(repoList: GithubRepo[], reponame: string): GithubRepo[] {
   return repoList.filter(item => item.name !== reponame).map((item) => {
     return {
-      name: item.name,
-      html_url: item.html_url,
-      description: item.description,
-      language: item.language
+      name: item?.name,
+      html_url: item?.html_url,
+      description: item?.description,
+      language: item?.language
     }
   });
 }

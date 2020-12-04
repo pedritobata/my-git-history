@@ -15,13 +15,14 @@ export default class GitUserServiceImpl implements GitUserService {
   public async getUserByNickname(
     nickName: string,
   ) : Promise<UserResponse>{
-
-    const responseUser: GihubUser = await this.githubUserOperations.getUserbyNickname(
-        nickName
-    );
     if(!nickName || nickName === ''){//if no reponame is provided return error
       throw new Error("No username provided.");
     }
+
+    const responseUser: GihubUser = <GihubUser>await this.githubUserOperations.getUserbyNickname(
+        nickName
+    );
+    
     this.logger.info(`User retrieved: ${responseUser.login}.`);
 
     return userResponseMapper(responseUser);

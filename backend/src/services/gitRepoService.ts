@@ -5,5 +5,5 @@ export default interface GitRepoService {
     owner: string,
     reponame: string,
     branch: string
-  ): Promise<CommitListResponse | null>;
+  ): Promise<CommitListResponse | {}>;
 }

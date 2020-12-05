@@ -13,7 +13,6 @@ export default class GithubOperations {
       `/api/github-repos/${owner}/${repo}/commits?sha=${branch}`
     );
     commitList = response.data as Promise<CommitList>;
-    console.log("commitList >>>", commitList);
 
     return commitList;
   }
@@ -26,7 +25,6 @@ export default class GithubOperations {
       `/api/github-users/${nickname}`
     );
     user = response.data as Promise<User>;
-    console.log("user >>>", user);
 
     return user;
   }

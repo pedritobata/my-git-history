@@ -35,6 +35,5 @@ export function buildCommitListGroupedByDate(commitList: Commit[]): CommitsGroup
             result[formatDatePresentation(commit.commitDate)].push(commit);
         }
     }
-    console.log("result****", result);
     return result;
 }

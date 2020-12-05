@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv = require("dotenv");
 const foundEnv = dotenv.config();
 if (foundEnv.error) {
-    throw new Error("env file not found.");
+    //throw new Error("env file not found.");
 }
 /**
  * This object contains all of the main global constants needed for the app

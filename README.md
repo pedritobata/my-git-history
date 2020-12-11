@@ -4,7 +4,7 @@
 
 You can visit [the deployed version](https://mygithubhistory.herokuapp.com) hosted in Heroku 
 
-![screenshot](https://github.com/pedritobata/my-git-history/blob/master/uploads/Screen%20Shot%202020-09-29%20at%205.50.52%20PM.png)
+![screenshot](https://github.com/pedritobata/my-git-history/blob/master/screenshot-2020-12-10-21.51.49.png)
 
 ## Features
 
@@ -15,8 +15,6 @@ You can visit [the deployed version](https://mygithubhistory.herokuapp.com) host
 - link to user profile by clicking on avatar
 - Refresh commits results by clicking Refresh button
 
-## Note on Issues
-Please do not post issues here that are related to your own code when taking the course. Add those in the Udemy Q/A. If you clone THIS repo and there are issues, then you can submit
 
 ## Usage
 

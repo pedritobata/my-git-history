@@ -20,7 +20,7 @@ You can visit [the deployed version](https://mygithubhistory.herokuapp.com) host
 
 ### Env Variables
 
-Create a .env file in then root and add the following
+Create a .env file in the root and add the following
 
 ```
 NODE_ENV = development
@@ -28,6 +28,12 @@ PORT = 5000
 LOG_LEVEL= debug
 CLIENT_ID= <your github client id>
 CLIENT_SECRET= <your github client secret>
+```
+
+Create a .env file in the frontend directory and add the following to avoid a react-scripts jest dependency issue
+
+```
+SKIP_PREFLIGHT_CHECK=true
 ```
 
 ### Install Dependencies (frontend & backend)
@@ -42,9 +48,11 @@ npm install
 
 ```
 # Run frontend (:3000) & backend (:5000)
+# In the project root run this command
 npm run dev
 
 # Run backend only
+# In the project root run this command
 npm run server
 ```
 
